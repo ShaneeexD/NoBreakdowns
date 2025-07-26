@@ -1,5 +1,7 @@
 # Colony Chatter
 
+<img width="360" height="360" alt="ColonyChatter" src="https://github.com/user-attachments/assets/171db6e2-3199-4785-b747-8cafc716cd61" />
+
 ## Overview
 Colony Chatter is a RimWorld mod that adds a new personality trait to the game: "Chatty". Colonists with this trait enjoy social interactions more than others, gain mood boosts from conversations, and have enhanced social capabilities.
 
