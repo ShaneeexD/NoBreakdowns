@@ -1,15 +1,28 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace ColonyChatter
 {
+    /// <summary>
+    /// Manages the creation and display of speech bubbles for chatty colonists
+    /// </summary>
     [StaticConstructorOnStartup]
     public static class ChattyBubbleManager
     {
+        // Dictionary to track when pawns last had a bubble
+        private static readonly Dictionary<int, float> lastBubbleTime = new Dictionary<int, float>();
+        
+        // List of active bubbles
+        private static readonly List<ChattyBubble> activeBubbles = new List<ChattyBubble>();
+        
+        // Minimum time between bubbles for the same pawn (in seconds)
+        private const float MinTimeBetweenBubbles = 10f;
+        
         // List of possible chat snippets for random bubbles
         private static readonly List<string> ChatSnippets = new List<string>
         {
@@ -35,50 +48,222 @@ namespace ColonyChatter
             "What's a colonist's favorite exercise? The mental break!",
             "Why was the mechanoid feeling down? It had a chip on its shoulder!"
         };
-
-        // Show an enthusiastic chat bubble above a pawn
-        public static void ShowEnthusiasticChatBubble(Pawn pawn)
+        
+        // Textures for speech bubbles
+        public static readonly Texture2D BubbleInner;
+        public static readonly Texture2D BubbleOuter;
+        public static readonly Texture2D BubbleIcon;
+        
+        // Static constructor to load textures
+        static ChattyBubbleManager()
         {
-            if (pawn?.Map == null || !pawn.Spawned)
-                return;
-
-            // Just throw text above the pawn
-            MoteMaker.ThrowText(pawn.DrawPos + new Vector3(0f, 0f, 0.5f), pawn.Map, "!!", 3.5f);
-            
-            // Play an enthusiastic sound
-            SoundDefOf.Tick_High.PlayOneShot(new TargetInfo(pawn));
+            // Load textures from the mod's Textures folder
+            BubbleInner = ContentFinder<Texture2D>.Get("Bubbles/Inner");
+            BubbleOuter = ContentFinder<Texture2D>.Get("Bubbles/Outer");
+            BubbleIcon = ContentFinder<Texture2D>.Get("Bubbles/Icon");
         }
-
-        // Show a random chat snippet bubble above a pawn
-        public static void ShowChatSnippetBubble(Pawn pawn)
+        
+        /// <summary>
+        /// Shows an enthusiastic bubble above a pawn
+        /// </summary>
+        /// <param name="pawn">The pawn to show the bubble above</param>
+        public static void ShowEnthusiasticBubble(Pawn pawn)
         {
-            if (pawn?.Map == null || !pawn.Spawned)
+            if (pawn == null || !CanShowBubble(pawn))
+            {
                 return;
-
-            // Get a random chat snippet
-            string chatText = ChatSnippets.RandomElement();
+            }
             
-            // Show floating text for the actual content
-            MoteMaker.ThrowText(pawn.DrawPos + new Vector3(0f, 0f, 0.5f), pawn.Map, chatText, 3.5f);
-            
-            // Play a chat sound
-            SoundDefOf.Tick_Low.PlayOneShot(new TargetInfo(pawn));
+            try
+            {
+                // Play a sound
+                SoundDefOf.Tick_High.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
+                
+                // Create a new bubble
+                ChattyBubble bubble = new ChattyBubble(pawn, "So excited to chat!", ChattyBubble.BubbleType.Enthusiastic);
+                activeBubbles.Add(bubble);
+                
+                // Update the last bubble time
+                RecordBubbleTime(pawn);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[Colony Chatter] Error showing enthusiastic bubble: {ex}");
+            }
         }
-
-        // Show a joke bubble above a pawn
+        
+        /// <summary>
+        /// Shows a chat snippet bubble above a pawn
+        /// </summary>
+        /// <param name="pawn">The pawn to show the bubble above</param>
+        /// <param name="text">The text to show in the bubble</param>
+        public static void ShowChatBubble(Pawn pawn, string text = null)
+        {
+            if (pawn == null || !CanShowBubble(pawn))
+            {
+                return;
+            }
+            
+            try
+            {
+                // Play a sound
+                SoundDefOf.Tick_Low.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
+                
+                // Use random chat snippet if no text provided
+                string bubbleText = text;
+                if (bubbleText.NullOrEmpty())
+                {
+                    bubbleText = ChatSnippets.RandomElement();
+                }
+                
+                // Create a new bubble
+                ChattyBubble bubble = new ChattyBubble(pawn, bubbleText, ChattyBubble.BubbleType.Chat);
+                activeBubbles.Add(bubble);
+                
+                // Update the last bubble time
+                RecordBubbleTime(pawn);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[Colony Chatter] Error showing chat bubble: {ex}");
+            }
+        }
+        
+        /// <summary>
+        /// Shows a joke bubble above a pawn
+        /// </summary>
+        /// <param name="pawn">The pawn to show the bubble above</param>
         public static void ShowJokeBubble(Pawn pawn)
         {
-            if (pawn?.Map == null || !pawn.Spawned)
+            if (pawn == null || !CanShowBubble(pawn))
+            {
                 return;
-
-            // Get a random joke
-            string jokeText = Jokes.RandomElement();
+            }
             
-            // Show floating text for the actual joke
-            MoteMaker.ThrowText(pawn.DrawPos + new Vector3(0f, 0f, 0.5f), pawn.Map, jokeText, 4f);
+            try
+            {
+                // Play a sound
+                SoundDefOf.Tick_Tiny.PlayOneShot(new TargetInfo(pawn.Position, pawn.Map));
+                
+                // Get a random joke
+                string joke = Jokes.RandomElement();
+                
+                // Create a new bubble
+                ChattyBubble bubble = new ChattyBubble(pawn, joke, ChattyBubble.BubbleType.Joke);
+                activeBubbles.Add(bubble);
+                
+                // Update the last bubble time
+                RecordBubbleTime(pawn);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"[Colony Chatter] Error showing joke bubble: {ex}");
+            }
+        }
+        
+        /// <summary>
+        /// Updates all active bubbles and removes expired ones
+        /// </summary>
+        public static void Update()
+        {
+            // Update all active bubbles
+            for (int i = activeBubbles.Count - 1; i >= 0; i--)
+            {
+                ChattyBubble bubble = activeBubbles[i];
+                bubble.Update();
+                
+                // Remove expired bubbles
+                if (bubble.Expired)
+                {
+                    activeBubbles.RemoveAt(i);
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Draws all active bubbles
+        /// </summary>
+        public static void DrawBubbles()
+        {
+            // Draw all active bubbles
+            foreach (ChattyBubble bubble in activeBubbles)
+            {
+                bubble.Draw();
+            }
+        }
+        
+        /// <summary>
+        /// Checks if a pawn can show a bubble
+        /// </summary>
+        /// <param name="pawn">The pawn to check</param>
+        /// <returns>True if the pawn can show a bubble, false otherwise</returns>
+        private static bool CanShowBubble(Pawn pawn)
+        {
+            // Check if the pawn is valid
+            if (pawn == null || pawn.Map == null || pawn.Dead || !pawn.Spawned)
+            {
+                return false;
+            }
             
-            // Play a joke sound
-            SoundDefOf.Tick_Tiny.PlayOneShot(new TargetInfo(pawn));
+            // Check if the pawn has had a bubble recently
+            if (lastBubbleTime.TryGetValue(pawn.thingIDNumber, out float lastTime))
+            {
+                if (Time.realtimeSinceStartup - lastTime < MinTimeBetweenBubbles)
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        /// <summary>
+        /// Records the time a pawn had a bubble
+        /// </summary>
+        /// <param name="pawn">The pawn that had a bubble</param>
+        private static void RecordBubbleTime(Pawn pawn)
+        {
+            if (pawn != null)
+            {
+                lastBubbleTime[pawn.thingIDNumber] = Time.realtimeSinceStartup;
+            }
+        }
+        
+        /// <summary>
+        /// Gets a random chat snippet
+        /// </summary>
+        /// <returns>A random chat snippet</returns>
+        public static string GetRandomChatSnippet()
+        {
+            return ChatSnippets.RandomElement();
+        }
+        
+        /// <summary>
+        /// Gets a random joke
+        /// </summary>
+        /// <returns>A random joke</returns>
+        public static string GetRandomJoke()
+        {
+            return Jokes.RandomElement();
+        }
+        
+        /// <summary>
+        /// Shows a chat snippet bubble above a pawn with random text
+        /// </summary>
+        /// <param name="pawn">The pawn to show the bubble above</param>
+        public static void ShowChatSnippetBubble(Pawn pawn)
+        {
+            string chatText = GetRandomChatSnippet();
+            ShowChatBubble(pawn, chatText);
+        }
+        
+        /// <summary>
+        /// Shows an enthusiastic chat bubble above a pawn
+        /// </summary>
+        /// <param name="pawn">The pawn to show the bubble above</param>
+        public static void ShowEnthusiasticChatBubble(Pawn pawn)
+        {
+            ShowEnthusiasticBubble(pawn);
         }
     }
 }

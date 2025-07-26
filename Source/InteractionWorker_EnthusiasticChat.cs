@@ -45,23 +45,20 @@ namespace ColonyChatter
             bool initiatorIsChatty = HasChattyTrait(initiator);
             bool recipientIsChatty = HasChattyTrait(recipient);
             
-            // Show speech bubbles based on who is chatty
+            // Show joke bubbles only
             if (initiatorIsChatty)
             {
-                // Show enthusiastic chat bubble above initiator
-                ChattyBubbleManager.ShowEnthusiasticChatBubble(initiator);
-                
-                // 50% chance to show a joke bubble
-                if (Rand.Chance(0.5f))
+                // Show joke bubble above initiator
+                if (Rand.Chance(0.7f))
                 {
                     ChattyBubbleManager.ShowJokeBubble(initiator);
                 }
             }
             
-            if (recipientIsChatty)
+            if (recipientIsChatty && Rand.Chance(0.3f))
             {
-                // Show chat snippet bubble above recipient
-                ChattyBubbleManager.ShowChatSnippetBubble(recipient);
+                // Occasionally show joke bubble above recipient too
+                ChattyBubbleManager.ShowJokeBubble(recipient);
             }
             
             // Check if both pawns have the chatty trait

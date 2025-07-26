@@ -72,19 +72,11 @@ namespace ColonyChatter
                     // Choose which bubble to show based on whether they're near others
                     if (nearOthers)
                     {
-                        // Near others - show chat or joke
-                        float rand = Rand.Value;
-                        if (rand < 0.6f)
-                            ChattyBubbleManager.ShowChatSnippetBubble(chattyPawn);
-                        else
+                        // Near others - only show joke bubbles
+                        if (Rand.Chance(0.4f))
                             ChattyBubbleManager.ShowJokeBubble(chattyPawn);
                     }
-                    else
-                    {
-                        // Alone - just show a thought bubble occasionally
-                        if (Rand.Chance(0.3f))
-                            ChattyBubbleManager.ShowChatSnippetBubble(chattyPawn);
-                    }
+                    // No bubbles when alone
                 }
             }
         }

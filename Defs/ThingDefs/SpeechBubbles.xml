@@ -16,6 +16,24 @@
     <rotatable>false</rotatable>
   </ThingDef>
 
+  <!-- Custom speech bubble with text inside -->
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_SpeechBubbleWithText</defName>
+    <thingClass>ColonyChatter.Mote_SpeechBubbleWithText</thingClass>
+    <graphicData>
+      <texPath>Things/Mote/Speech</texPath>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <drawSize>(1.4, 1.4)</drawSize>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <solidTime>3.5</solidTime>
+      <fadeOutTime>0.5</fadeOutTime>
+    </mote>
+  </ThingDef>
+  
   <!-- Enthusiastic chat bubble -->
   <ThingDef ParentName="ChattyBubbleBase">
     <defName>Mote_EnthusiasticChatBubble</defName>
@@ -60,4 +78,51 @@
       <fadeOutTime>0.6</fadeOutTime>
     </mote>
   </ThingDef>
+  
+  <!-- Legacy mote definitions renamed to avoid conflicts -->
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_LegacyEnthusiasticChatBubble</defName>
+    <graphicData>
+      <texPath>Things/Mote/Speech</texPath>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <mote>
+      <fadeInTime>0.08</fadeInTime>
+      <solidTime>2.5</solidTime>
+      <fadeOutTime>0.5</fadeOutTime>
+    </mote>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_LegacyChatSnippetBubble</defName>
+    <graphicData>
+      <texPath>Things/Mote/Speech</texPath>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <mote>
+      <fadeInTime>0.08</fadeInTime>
+      <solidTime>3.5</solidTime>
+      <fadeOutTime>0.5</fadeOutTime>
+    </mote>
+  </ThingDef>
+  
+  <ThingDef ParentName="MoteBase">
+    <defName>Mote_LegacyJokeBubble</defName>
+    <graphicData>
+      <texPath>Things/Mote/Speech</texPath>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MetaOverlays</altitudeLayer>
+    <mote>
+      <fadeInTime>0.08</fadeInTime>
+      <solidTime>4.0</solidTime>
+      <fadeOutTime>0.5</fadeOutTime>
+    </mote>
+  </ThingDef>
+  
 </Defs>
