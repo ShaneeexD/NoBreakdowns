@@ -99,7 +99,7 @@ namespace ColonyChatter
             // Get all free colonists from all maps
             foreach (Pawn pawn in PawnsFinder.AllMaps_FreeColonistsSpawned)
             {
-                if (pawn.story?.traits?.HasTrait(TraitDef.Named("ColonyChatter")) ?? false)
+                if (pawn.story?.traits?.HasTrait(ColonyChatterDefOf.ColonyChatter) ?? false)
                 {
                     result.Add(pawn);
                 }

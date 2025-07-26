@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Base speech bubble mote -->
+  <ThingDef Name="ChattyBubbleBase" Abstract="True">
+    <thingClass>MoteThrown</thingClass>
+    <label>Speech bubble</label>
+    <category>Mote</category>
+    <graphicData>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <useHitPoints>false</useHitPoints>
+    <isSaveable>false</isSaveable>
+    <rotatable>false</rotatable>
+  </ThingDef>
+
+  <!-- Enthusiastic chat bubble -->
+  <ThingDef ParentName="ChattyBubbleBase">
+    <defName>Mote_EnthusiasticChatBubble</defName>
+    <graphicData>
+      <texPath>Things/Mote/SpeechSymbols/Chitchat</texPath>
+      <color>(255, 255, 255)</color>
+      <drawSize>1.4</drawSize>
+    </graphicData>
+    <mote>
+      <fadeInTime>0.2</fadeInTime>
+      <solidTime>1.5</solidTime>
+      <fadeOutTime>0.7</fadeOutTime>
+    </mote>
+  </ThingDef>
+  
+  <!-- Random chat snippets bubble -->
+  <ThingDef ParentName="ChattyBubbleBase">
+    <defName>Mote_ChatSnippetBubble</defName>
+    <graphicData>
+      <texPath>Things/Mote/SpeechSymbols/Chitchat</texPath>
+      <color>(255, 255, 255)</color>
+      <drawSize>1.2</drawSize>
+    </graphicData>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <solidTime>2.0</solidTime>
+      <fadeOutTime>0.5</fadeOutTime>
+    </mote>
+  </ThingDef>
+  
+  <!-- Joke bubble -->
+  <ThingDef ParentName="ChattyBubbleBase">
+    <defName>Mote_JokeBubble</defName>
+    <graphicData>
+      <texPath>Things/Mote/SpeechSymbols/Chitchat</texPath>
+      <color>(255, 255, 150)</color>
+      <drawSize>1.3</drawSize>
+    </graphicData>
+    <mote>
+      <fadeInTime>0.15</fadeInTime>
+      <solidTime>1.8</solidTime>
+      <fadeOutTime>0.6</fadeOutTime>
+    </mote>
+  </ThingDef>
+</Defs>

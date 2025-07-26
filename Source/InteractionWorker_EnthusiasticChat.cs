@@ -41,8 +41,31 @@ namespace ColonyChatter
             letterDef = null;
             lookTargets = null;
             
+            // Check if either pawn has the chatty trait
+            bool initiatorIsChatty = HasChattyTrait(initiator);
+            bool recipientIsChatty = HasChattyTrait(recipient);
+            
+            // Show speech bubbles based on who is chatty
+            if (initiatorIsChatty)
+            {
+                // Show enthusiastic chat bubble above initiator
+                ChattyBubbleManager.ShowEnthusiasticChatBubble(initiator);
+                
+                // 50% chance to show a joke bubble
+                if (Rand.Chance(0.5f))
+                {
+                    ChattyBubbleManager.ShowJokeBubble(initiator);
+                }
+            }
+            
+            if (recipientIsChatty)
+            {
+                // Show chat snippet bubble above recipient
+                ChattyBubbleManager.ShowChatSnippetBubble(recipient);
+            }
+            
             // Check if both pawns have the chatty trait
-            if (HasChattyTrait(initiator) && HasChattyTrait(recipient))
+            if (initiatorIsChatty && recipientIsChatty)
             {
                 // Both are chatty, give additional opinion boost
                 // Use the built-in social thought from our interaction
@@ -59,8 +82,8 @@ namespace ColonyChatter
         {
             if (pawn?.story?.traits == null)
                 return false;
-                
-            return pawn.story.traits.HasTrait(TraitDef.Named("ColonyChatter"));
+            
+            return pawn.story.traits.HasTrait(ColonyChatterDefOf.ColonyChatter);
         }
     }
 }
