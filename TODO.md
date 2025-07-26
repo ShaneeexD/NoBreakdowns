@@ -1,8 +1,3 @@
-Speech Bubbles:
-
-Add visual speech bubbles above chatty colonists when they're near others
-Could show random conversation snippets or jokes
-
 Skill Benefits:
 
 Make chatty colonists better at certain social skills like trading or recruiting

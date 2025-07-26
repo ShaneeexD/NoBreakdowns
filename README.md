@@ -25,6 +25,12 @@ Colony Chatter is a RimWorld mod that adds a new personality trait to the game: 
 - Creates more dynamic and interesting social interactions in your colony
 - Adds personality and depth to your colonists
 
+### Mental Break Resistance
+- Chatty colonists have 30% reduced mental break chance when around other colonists
+- When isolated, chatty colonists have 30% increased mental break chance
+- Includes a 30-second grace period before status changes take effect
+- Encourages social colony layouts and buddy systems
+
 ## Compatibility
 - Compatible with RimWorld 1.6
 - Safe to add to existing saves
@@ -33,7 +39,7 @@ Colony Chatter is a RimWorld mod that adds a new personality trait to the game: 
 ## Future Plans
 - Skill benefits for social tasks like trading and recruiting
 - Special interactions with other personality traits
-- Mental break resistance when chatty colonists are around others
+- Additional social-based gameplay mechanics
 
 ## Installation
 1. Subscribe to the mod on Steam Workshop or download and extract to your RimWorld Mods folder

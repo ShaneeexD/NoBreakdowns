@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Thought for chatty colonists based on whether they're near others -->
+  <ThoughtDef>
+    <defName>ChattyNearOthers</defName>
+    <workerClass>ColonyChatter.ThoughtWorker_ChattyNearOthers</workerClass>
+    <validWhileDespawned>false</validWhileDespawned>
+    <stages>
+      <li>
+        <label>enjoying company</label>
+        <description>I'm around other people. This is where I thrive!</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+      <li>
+        <label>feeling isolated</label>
+        <description>I'm all alone. I need someone to talk to!</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>
