@@ -15,6 +15,11 @@ Colony Chatter is a RimWorld mod that adds a new personality trait to the game: 
 - Both participants receive mood boosts from these interactions
 - When two chatty colonists interact, they form stronger bonds and gain additional social skill
 
+### Speech Bubbles
+- Chatty colonists occasionally display joke bubbles above their heads
+- Custom speech bubble visuals appear when colonists tell jokes
+- Bubbles only appear when colonists are near others, encouraging social colony layouts
+
 ### Gameplay Impact
 - Encourages keeping chatty colonists near others for mood benefits
 - Creates more dynamic and interesting social interactions in your colony
