@@ -1,9 +1,3 @@
-Social Interactions:
-
-Add special social interactions between chatty colonists
-Create unique chat topics that appear in the social log
-Add special bonuses when two chatty pawns interact with each other
-
 Speech Bubbles:
 
 Add visual speech bubbles above chatty colonists when they're near others
