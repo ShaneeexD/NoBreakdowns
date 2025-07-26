@@ -1,0 +1,16 @@
+<Defs>
+  <ThoughtDef>
+    <defName>ColonyChatterThought</defName>
+    <stackLimit>1</stackLimit>
+    <workerClass>ColonyChatter.ThoughtWorker_ColonyChatterThought</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>had a good chat</label>
+        <description>They had a nice chat with someone.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+        <baseOpinionOffset>5</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>
