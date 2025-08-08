@@ -5,9 +5,9 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <LangVersion>7.3</LangVersion>
-    <AssemblyName>ColonyChatter</AssemblyName>
-    <RootNamespace>ColonyChatter</RootNamespace>
-    <BaseOutputPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\ColonyChatter\Assemblies</BaseOutputPath>
+    <AssemblyName>NoBreakdowns</AssemblyName>
+    <RootNamespace>NoBreakdowns</RootNamespace>
+    <OutputPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\NoBreakdowns\Assemblies\</OutputPath>
     <!-- Ensure no .NET Core/.NET 8.0 references -->
     <UseWPF>false</UseWPF>
     <UseWindowsForms>false</UseWindowsForms>
@@ -20,6 +20,10 @@
     </PackageReference>
     <Reference Include="Assembly-CSharp">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Verse">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Verse.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core">

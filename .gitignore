@@ -21,7 +21,9 @@ packages/
 
 # Compiled DLLs in Assemblies folder (keep only final release versions)
 # Uncomment if you want to exclude compiled DLLs
-# Assemblies/*.dll
+Assemblies/*.dll
+# Ignore everything in Assemblies (build outputs)
+Assemblies/**
 
 # Temporary files
 *.tmp

@@ -1,11 +1,11 @@
 <ModMetaData>
-  <name>Colony Chatter Trait</name>
+  <name>NoBreakdowns</name>
   <author>ShaneeexD</author>
-  <packageId>shaneeexd.colonychatter</packageId>
+  <packageId>shaneeexd.nobreakdowns</packageId>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
   <description>
-    Adds a new trait called "Colony Chatter" that gives a small mood buff when around others.
+    Stops machinery built with components from breaking down.
   </description>
 </ModMetaData>
