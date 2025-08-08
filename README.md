@@ -7,6 +7,8 @@ Stops powered machinery that was built with components from ever breaking down.
   - Have components in their build cost (`ComponentIndustrial` or `ComponentSpacer`).
 - Matching buildings will not enter the broken state.
 - Already-broken matching buildings are automatically repaired on spawn/load.
+ - Prevents random battery short-circuit ("Zzztt") incidents. Rain-caused short circuits still occur.
+ - Prevents solar flare incidents.
 
 ## How it works
 This mod uses Harmony patches:
@@ -16,11 +18,16 @@ This mod uses Harmony patches:
   - If both are true, returns `false` to skip the original breakdown method.
 - Postfix on `RimWorld.CompBreakdownable.PostSpawnSetup(...)`
   - If a matching building is already broken (e.g., when loading a save), it immediately calls `Notify_Repaired()`.
+ - Prefix on `RimWorld.IncidentWorker_ShortCircuit.TryExecuteWorker(...)`
+   - Returns `false` to cancel random short-circuit incidents. Does not affect `IncidentWorker_ShortCircuitRain`.
+ - Prefix on `RimWorld.IncidentWorker_SolarFlare.TryExecuteWorker(...)`
+   - Returns `false` to cancel solar flare incidents entirely.
 
 Files:
 - `Source/HarmonyPatches/ModInit.cs`: Harmony bootstrapper.
 - `Source/HarmonyPatches/NoBreakdownPatch.cs`: Skips breakdowns for qualifying buildings.
 - `Source/HarmonyPatches/AutoRepairOnSpawnPatch.cs`: Auto-repairs qualifying buildings on spawn.
+- `Source/HarmonyPatches/DisableIncidentsPatches.cs`: Disables random short-circuit and solar flare incidents.
 - `Source/NoBreakdowns.csproj`: Project file targeting .NET Framework 4.7.2.
 
 ## Compatibility
@@ -61,6 +68,8 @@ Notes
 
 ## Known limitations
 - Only prevents breakdowns for powered, component-built buildings. Items without power or without component costs use vanilla behavior.
+ - Random battery short-circuits are disabled; rain-exposure short-circuits remain.
+ - Solar flares are disabled entirely.
 
 ## FAQ
 - Q: Does this affect maintenance decay or other failures?
